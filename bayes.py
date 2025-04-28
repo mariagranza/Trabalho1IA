@@ -37,18 +37,18 @@ def gerar_cronograma(materias, tempo_total):
 # === INTERFACE ===
 
 def main():
-    st.title("📚 Organizador Inteligente de Estudos")
+    st.title("Organizador Inteligente de Estudos")
 
     with st.sidebar:
-        st.header("📎 Envie seus materiais")
+        st.header("Envie seus materiais")
         uploader = st.file_uploader("Adicione arquivos PDF", type="pdf", accept_multiple_files=True)
         if uploader:
             text = extract_files(uploader)
             st.session_state["document-text"] = text
 
-    st.subheader("🧠 Sistema de Organização de Estudos")
+    st.subheader("Sistema de Organização de Estudos")
 
-    with st.expander("1️⃣ Cadastro de Matérias e Dificuldade"):
+    with st.expander("Cadastro de Matérias e Dificuldade"):
         materias = {}
         num_materias = st.number_input("Quantas matérias deseja cadastrar?", min_value=1, max_value=20, value=3)
         for i in range(num_materias):
@@ -57,21 +57,21 @@ def main():
             if nome:
                 materias[nome] = dificuldade
 
-    with st.expander("2️⃣ Tempo disponível por dia"):
+    with st.expander("Tempo disponível por dia"):
         tempo_disponivel = st.slider("Minutos disponíveis por dia", 30, 600, 120)
 
     if materias and tempo_disponivel:
-        st.subheader("📅 Cronograma Gerado")
+        st.subheader("Cronograma Gerado")
         cronograma = gerar_cronograma(materias, tempo_disponivel)
         for mat, tempo in cronograma.items():
             st.write(f"- {mat}: {tempo} minutos por dia")
 
-        st.subheader("🔔 Lembretes Inteligentes")
+        st.subheader("Lembretes Inteligentes")
         for mat in materias:
             st.success(f"Lembrete: Estude **{mat}** hoje!")
 
     if "document-text" in st.session_state:
-        st.subheader("💬 Tire dúvidas com seus PDFs")
+        st.subheader("Tire dúvidas com seus PDFs")
         pergunta = st.text_input("Digite sua pergunta:")
         if pergunta:
             resposta = chat_with_groq(pergunta, st.session_state["document-text"])
